@@ -3,9 +3,9 @@ import time
 
 
 
-os.system("timidity transient.mid &")
+os.system("timidity /home/pi/pi-lightorgan-read-only/transient.mid &")
 time.sleep(1.8)
 
-os.system("aplaymidi --port 14 transient.mid")
+os.system("aplaymidi --port 14 /home/pi/pi-lightorgan-read-only/transient.mid")
 
 

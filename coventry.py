@@ -3,9 +3,9 @@ import time
 
 
 
-os.system("mpg123 coventry-carol.mp3 & > /dev/null")
+os.system("mpg123 /home/pi/pi-lightorgan-read-only/coventry-carol.mp3 & > /dev/null")
 time.sleep(0.6)
 
-os.system("aplaymidi --port 14 coventry-carol.mid > /dev/null")
+os.system("aplaymidi --port 14 /home/pi/pi-lightorgan-read-only/coventry-carol.mid > /dev/null")
 
 
