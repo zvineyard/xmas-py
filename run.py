@@ -6,7 +6,6 @@ while (count < 1000):
 	os.system("sudo amixer set PCM 90%")
 	os.system("mpg123 /home/pi/pi-lightorgan-read-only/vineyard2.mp3 > /dev/null")
 
-
 	os.system("sudo amixer set PCM 100%")
 
 	os.system("sudo gpio write 0 0;sudo gpio write 1 0;sudo gpio write 2 0;sudo gpio write 3 0;sudo gpio write 4 0;sudo gpio write 5 0;sudo gpio write 6 0;sudo gpio write 7 0;")
