@@ -1,5 +1,12 @@
 import os
 import time
+import random
+
+MUSICPATH = '/home/pi/xmas-py/audio'
+numSongs = 5
+repeatAll = False
+randomOrder = True
+playIntro = False
 
 songs = {
         # 'FILE_BASE_NAME': DELAY(sec),
@@ -43,25 +50,49 @@ songs = {
 	'while-shepherds-watched': 0.6
 }
 
+# Determine length of list and starting point
+if numSongs < 1:
+	numSongs = len(songs)
+startingPoint = 0
+if randomOrder:
+    startingPoint = random.randint(0,len(songs)-numSongs+1)
+            
 while True:
 
 	# Turn all lights on
 	os.system("sudo gpio write 0 1;sudo gpio write 1 1;sudo gpio write 2 1;sudo gpio write 3 1;sudo gpio write 4 1;sudo gpio write 5 1;sudo gpio write 6 1;sudo gpio write 7 1;")
 
 	# ADjust volume and play into
-	os.system("sudo amixer set PCM 90%")
-	os.system("mpg123 /home/pi/xmas-py/audio/vineyard.mp3 > /dev/null")
+        if playIntro:
+	    os.system("sudo amixer set PCM 90%")
+            cmd = "mpg123 " + MUSICPATH  + "/audio/vineyard.mp3 > /dev/null"
+	    os.system(cmd)
 
-	os.system("sudo amixer set PCM 100%")
+	    os.system("sudo amixer set PCM 100%")
 
 	# Turn all lights off
 	os.system("sudo gpio write 0 0;sudo gpio write 1 0;sudo gpio write 2 0;sudo gpio write 3 0;sudo gpio write 4 0;sudo gpio write 5 0;sudo gpio write 6 0;sudo gpio write 7 0;")
 	
+        # Initialize counter
+        i = 0
+        j = 0
 	# Play songs for show
-	for name, delay in songs.iteritems():
-		os.system("mpg123 -q /home/pi/xmas-py/audio/%s.mp3 &" % name)
+        for name, delay in songs.iteritems():
+                if i < startingPoint: 
+                    i = i + 1
+                    continue
+                
+                cmd = "mpg123 -q " + MUSICPATH + "/" + name + ".mp3 &"
+		os.system(cmd)
 		time.sleep(delay)
-		os.system("aplaymidi --port 14 /home/pi/xmas-py/audio/%s.mid" % name)
-
+                cmd = "aplaymidi --port 14 "  + MUSICPATH + "/" + name + ".mid"
+		os.system(cmd)
+                if j >= numSongs:
+                    break
+                j = j + 1
+        if not(repeatAll):
+            st = "Exiting after " + str(j) + " songs."
+            print(st)
+            break
 
 
