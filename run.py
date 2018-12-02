@@ -2,6 +2,7 @@ import os
 import time
 
 songs = {
+        # 'FILE_BASE_NAME': DELAY(sec),
 	'as-with-gladness-men-of-old': 0.6,
 	'away-in-a-manger': 0.6,
 	'carol-of-the-bells': 0.55,
@@ -49,7 +50,7 @@ while True:
 
 	# ADjust volume and play into
 	os.system("sudo amixer set PCM 90%")
-	os.system("mpg123 /home/pi/pi-lightorgan-read-only/audio/vineyard.mp3 > /dev/null")
+	os.system("mpg123 /home/pi/xmas-py/audio/vineyard.mp3 > /dev/null")
 
 	os.system("sudo amixer set PCM 100%")
 
@@ -58,9 +59,9 @@ while True:
 	
 	# Play songs for show
 	for name, delay in songs.iteritems():
-		os.system("mpg123 -q /home/pi/pi-lightorgan-read-only/audio/%s.mp3 &" % name)
+		os.system("mpg123 -q /home/pi/xmas-py/audio/%s.mp3 &" % name)
 		time.sleep(delay)
-		os.system("aplaymidi --port 14 /home/pi/pi-lightorgan-read-only/audio/%s.mid" % name)
+		os.system("aplaymidi --port 14 /home/pi/xmas-py/audio/%s.mid" % name)
 
 
 
