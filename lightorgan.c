@@ -8,6 +8,9 @@ static int in_port;
 #define THRUPORTCLIENT 14
 #define THRUPORTPORT 0
 #define MY_NUM_PINS 8
+// List of the actual pins to use (needs to match the size specified above)
+int pinList[] = {22,23,24,25,26,27,28,29};
+#define DEBUG
 
 void midi_open(void)
 {
@@ -66,14 +69,14 @@ void clearPinsState() {
 void pinsOn() {
    int i;
    for(i=0; i<MY_NUM_PINS; i++) {
-      digitalWrite(i, 1); 
+      digitalWrite(pinList[i], 1); 
    }
 }
 
 void pinsOff() {
    int i;
    for(i=0; i<MY_NUM_PINS; i++) {
-      digitalWrite(i, 1); 
+      digitalWrite(pinList[i], 1); 
    }
 }
 
@@ -159,7 +162,7 @@ void midi_process(snd_seq_event_t *ev)
                 }
                 //Write to the pin, save the note to pinNotes
                 //printf("Pin %i - %s %i %i \n", pinIdx, isOn ? "on" : "off", ev->data.note.note, ev->data.note.channel);       
-                digitalWrite(pinIdx, 1); 
+                digitalWrite(pinList[pinIdx], 1); 
                 pinNotes[pinIdx] = ev->data.note.note;
                 pinChannels[pinIdx] =  ev->data.note.channel;
              }
@@ -171,7 +174,7 @@ void midi_process(snd_seq_event_t *ev)
              if( pinNotes[pinIdx] == ev->data.note.note && pinChannels[pinIdx] == ev->data.note.channel ) {
                 //Write to the pin, indicate that pin is available
                 //printf("Pin %i - %s %i %i \n", pinIdx, isOn ? "on" : "off", ev->data.note.note, ev->data.note.channel);       
-                digitalWrite(pinIdx, 0); 
+                digitalWrite(pinList[pinIdx], 0); 
                 pinNotes[pinIdx] = -1;
                 pinChannels[pinIdx] = INT_MAX;
              }
@@ -204,7 +207,7 @@ int main()
     //Setup all the pins to use OUTPUT mode
     int i=0;
     for(i=0; i< MY_NUM_PINS; i++) {
-      pinMode(i, OUTPUT);
+      pinMode(pinList[i], OUTPUT);
     }
 
 
